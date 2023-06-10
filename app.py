@@ -32,10 +32,12 @@ def get_book(book_id):
 # Create a new book
 @app.route('/books', methods=['POST'])
 def create_book():
+    print(request.args['title'])
+    print(request.args['author'])
     new_book = {
         'id': len(books) + 1,
-        'title': request.json['title'],
-        'author': request.json['author']
+        'title': request.args['title'],
+        'author': request.args['author']
     }
     books.append(new_book)
     return jsonify(new_book), 201
@@ -59,4 +61,4 @@ def delete_book(book_id):
     return jsonify({'message': 'Book deleted'})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=8080)
+    app.run(host='0.0.0.0',port=8080,threaded=True)
